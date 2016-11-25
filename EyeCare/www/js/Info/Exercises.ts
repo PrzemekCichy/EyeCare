@@ -1,4 +1,4 @@
-﻿interface ISteps {
+﻿interface IStep {
     name: string,
     shortMessage: string,
     longMessage: string,
@@ -8,44 +8,62 @@
 
 interface IExercise {
     name: string,
-    steps: ISteps[],
+    steps: IStep[],
     shortMessage: string,
     longMessage: string,
-    duration: number 
+    duration: number
 }
-
-module Exercises{
-    var Exercises: IExercise[];
-
-    class Exercise{
-        public name: string;
-        public steps: ISteps[];
-        public shortMessage: string;
-        public longMessage: string;
-        public duration: number;
-
-        constructor() {
-            //Add to list in memory
-            Exercises = [];
-        }
-
-
-        public SaveToFile(): void{
-
-        }
-
-        public AddToList(): void{
-            var exercise: IExercise = {
-                name: this.name,
-                steps: this.steps,
-                shortMessage: this.shortMessage,
-                longMessage: this.longMessage,
-                duration: this.duration
-            };
-            Exercises.push( exercise );
-        }
+class Step implements IStep {
+    public name;
+    public shortMessage;
+    public longMessage;
+    public duration;
+    public repeat; 
+    constructor() {
     }
-    function MatchExercise(){
 
+    public SetUp(name, shortMessage, longMessage, duration, repeat): Step {
+        this.name = name;
+        this.shortMessage = shortMessage;
+        this.longMessage = longMessage;
+        this.duration = duration;
+        this.repeat = repeat;
+        return this;
     }
 }
+class Exercise implements IExercise {
+    public name: string;
+    public steps: IStep[];
+    public shortMessage: string;
+    public longMessage: string;
+    public duration: number;
+
+    constructor() {
+        //Add to list in memory
+    }
+
+    public SetUp(name, steps, shortMessage, longMessage, duration): Exercise {
+        this.name = name;
+        this.steps = steps;
+        this.shortMessage = shortMessage;
+        this.longMessage = longMessage;
+        this.duration = duration;
+        return this;
+    }
+
+    public SaveToFile(): void {
+
+    }
+
+    public AddToList(): void {
+        var exercise: IExercise = {
+            name: this.name,
+            steps: this.steps,
+            shortMessage: this.shortMessage,
+            longMessage: this.longMessage,
+            duration: this.duration
+        };
+        //Exercises.push( exercise );
+    }
+}
+
